@@ -3,19 +3,42 @@ import Home from "../page/Home";
 import App from "../App";
 import Login from "../page/Login";
 import NotFound from "../page/NotFound";
+import Signup from "../page/Signup";
+import AllBooks from "../page/AllBooks";
+import AddBook from "../page/AddBook";
+import BookDetails from "../page/BookDetails";
 
 const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/books",
+        element: <AllBooks />,
+      },
+      {
+        path: "/add_book",
+        element: <AddBook />,
+      },
+      {
+        path: "/details",
+        element: <BookDetails />,
+      },
+    ],
   },
+
   {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
+    path: "/signup",
+    element: <Signup />,
   },
   {
     path: "*",

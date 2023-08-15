@@ -1,3 +1,4 @@
+import MainLayout from "./layouts/MainLayout";
 import {
   decrement,
   increment,
@@ -10,7 +11,9 @@ function App() {
   const dispatch = useAppDispatch();
   return (
     <>
-      <div></div>
+      <div>
+        <MainLayout></MainLayout>
+      </div>
     </>
   );
 }
