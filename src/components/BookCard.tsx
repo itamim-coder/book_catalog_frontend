@@ -1,86 +1,43 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { IBook } from "../types/globalTypes";
 
-function BookCard() {
+interface IProps {
+  dt: IBook;
+}
+
+function BookCard({ dt }: IProps) {
+  console.log(dt);
   return (
-    <>
-      <section>
-        <div className="relative mx-auto max-w-7xl ">
-          <div className="grid max-w-lg gap-12 mx-auto mt-12 lg:grid-cols-3 lg:max-w-none">
-            <div className="flex flex-col mb-12 overflow-hidden cursor-pointer">
-              <div className="card card-side bg-base-100 shadow-xl">
-                <figure>
-                  <img
-                    src="/images/stock/photo-1635805737707-575885ab0820.jpg"
-                    alt="Movie"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">New movie is released!</h2>
-                  <p>Click the button to watch on Jetflix app.</p>
-                  <div className="card-actions justify-end">
-                    <Link to="/details">
-                      <button className="btn btn-primary">Details</button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col mb-12 overflow-hidden cursor-pointer">
-              <div className="card card-side bg-base-100 shadow-xl">
-                <figure>
-                  <img
-                    src="/images/stock/photo-1635805737707-575885ab0820.jpg"
-                    alt="Movie"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">New movie is released!</h2>
-                  <p>Click the button to watch on Jetflix app.</p>
-                  <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Watch</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col mb-12 overflow-hidden cursor-pointer">
-              <div className="card card-side bg-base-100 shadow-xl">
-                <figure>
-                  <img
-                    src="/images/stock/photo-1635805737707-575885ab0820.jpg"
-                    alt="Movie"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">New movie is released!</h2>
-                  <p>Click the button to watch on Jetflix app.</p>
-                  <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Watch</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col mb-12 overflow-hidden cursor-pointer">
-              <div className="card card-side bg-base-100 shadow-xl">
-                <figure>
-                  <img
-                    src="/images/stock/photo-1635805737707-575885ab0820.jpg"
-                    alt="Movie"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">New movie is released!</h2>
-                  <p>Click the button to watch on Jetflix app.</p>
-                  <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Watch</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div
+      key={dt?._id}
+      className="flex flex-col mb-12 overflow-hidden cursor-pointer"
+    >
+      <div className="card card-side bg-base-100 shadow-xl h-full">
+        <figure className="h-56 w-100">
+          {" "}
+          {/* Set a fixed height */}
+          <img
+            className="w-full h-full object-cover"
+            src="https://img.freepik.com/free-vector/abstract-elegant-winter-book-cover_23-2148798745.jpg?size=626&ext=jpg"
+            alt="Book Cover"
+          />
+        </figure>
+        <div className="card-body flex flex-col justify-between">
+          <div>
+            <h2 className="card-title">{dt?.title}</h2>
+            <p>{dt?.author}</p>
+            <p>{dt?.genre}</p>
+            <p>{dt?.publicationDate}</p>
+          </div>
+          <div className="card-actions">
+            <Link to={`/details/${dt?._id}`}>
+              <button className="btn btn-primary">Details</button>
+            </Link>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   );
 }
 
