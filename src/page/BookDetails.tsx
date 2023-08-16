@@ -58,12 +58,29 @@ function BookDetails() {
             </div>
             <div className="flex justify-between">
               <button className="btn btn-outline btn-info">Edit</button>
+
+              {/* Open the modal using ID.showModal() method */}
               <button
-                onClick={handleDelete}
                 className="btn btn-outline btn-error"
+                onClick={() => window.my_modal_2.showModal()}
               >
                 Delete
               </button>
+              <dialog id="my_modal_2" className="modal">
+                <form method="dialog" className="modal-box">
+                  <h3 className="font-bold text-lg text-red-600">
+                    Are you sure you want to delete??
+                  </h3>
+                  <div className="flex justify-center mt-5">
+                    <button
+                      onClick={handleDelete}
+                      className="btn  btn-outline btn-error"
+                    >
+                      Confirm Delete
+                    </button>
+                  </div>
+                </form>
+              </dialog>
             </div>
           </div>
         </div>

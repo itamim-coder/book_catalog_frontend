@@ -2,6 +2,13 @@ import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    addBook: builder.mutation({
+      query: (bookData) => ({
+        url: "/books",
+        method: "POST",
+        body: bookData,
+      }),
+    }),
     getBooks: builder.query({
       query: () => "/books",
     }),
@@ -17,5 +24,9 @@ const bookApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetBooksQuery, useSingleBookQuery, useDeleteBookMutation } =
-  bookApi;
+export const {
+  useGetBooksQuery,
+  useSingleBookQuery,
+  useDeleteBookMutation,
+  useAddBookMutation,
+} = bookApi;

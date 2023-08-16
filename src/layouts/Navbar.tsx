@@ -1,7 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { signOut } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import { setUser } from "../redux/Features/user/userSlice";
 
 function Navbar() {
+  const { user } = useAppSelector((state) => state.user);
+  // console.log("user", user);
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      dispatch(setUser(null));
+    });
+  };
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -31,40 +43,46 @@ function Navbar() {
         <ul className="menu menu-horizontal px-1">
           <Link to="/books">All Books</Link>
         </ul>
-        <ul className="menu menu-horizontal px-1">
-          <Link to="/add_book">Add Book</Link>
-        </ul>
+        {user.email && (
+          <>
+            <ul className="menu menu-horizontal px-1">
+              <Link to="/add_book">Add New</Link>
+            </ul>
+          </>
+        )}
       </div>
       <div className="navbar-end">
-        <button className="btn">
-          <Link to="/signup" className="justify-between">
-            Signup
-          </Link>
-        </button>
-        {/* <div className="dropdown dropdown-end">
-          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
-          </label>
-          <ul
-            tabIndex={0}
-            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-          >
-            <li>
+        {!user.email && (
+          <>
+            <button className="btn">
               <Link to="/signup" className="justify-between">
                 Signup
-                <span className="badge">New</span>
               </Link>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
-        </div> */}
+            </button>
+          </>
+        )}
+        {user.email && (
+          <>
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a>{user.email}</a>
+                </li>
+                <li>
+                  <a onClick={handleLogout}>Logout</a>
+                </li>
+              </ul>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

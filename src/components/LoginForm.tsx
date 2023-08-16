@@ -1,10 +1,42 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import {useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { loginUser } from "../redux/Features/user/userSlice";
 
+
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
 function LoginForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>();
+
+  const { user, isLoading } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const onSubmit = (data: LoginFormInputs) => {
+    console.log(data);
+    dispatch(loginUser({ email: data.email, password: data.password }));
+  };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    if (user.email && !isLoading) {
+      navigate('/');
+    }
+  }, [user.email, isLoading]);
+
   return (
     <>
-      <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-8 grid grid-cols-6 gap-6"
+      >
         <div className="col-span-6">
           <label
             htmlFor="Email"
@@ -17,8 +49,14 @@ function LoginForm() {
             type="email"
             id="Email"
             name="email"
-            className="mt-1 py-3 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+            {...register("email", { required: "Email is required" })}
+            className={`mt-1 py-3 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+              errors.email ? "border-red-500" : ""
+            }`}
           />
+          {errors.email && (
+            <p className="mt-2 text-sm text-red-500">{errors.email.message}</p>
+          )}
         </div>
 
         <div className="col-span-6 ">
@@ -33,8 +71,16 @@ function LoginForm() {
             type="password"
             id="Password"
             name="password"
-            className="mt-1 py-3 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+            {...register("password", { required: "Password is required" })}
+            className={`mt-1 py-3 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+              errors.password ? "border-red-500" : ""
+            }`}
           />
+          {errors.password && (
+            <p className="mt-2 text-sm text-red-500">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
         <div className="col-span-6 sm:flex sm:items-center sm:gap-4">

@@ -1,6 +1,29 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { useAddBookMutation } from "../redux/Features/books/bookApi";
+import { IBook } from "../types/globalTypes";
 
 function AddBook() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const [addBook, { isLoading }] = useAddBookMutation();
+
+  const onSubmit = (data: IBook) => {
+    addBook(data)
+      .unwrap()
+      .then(() => {
+        // Handle success
+        alert("Book added successfully");
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Error adding book:", error);
+      });
+  };
   return (
     <>
       <section className="bg-white">
@@ -60,89 +83,104 @@ function AddBook() {
                 </h1>
               </div>
 
-              <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+              <form
+                action="#"
+                className="mt-8 grid grid-cols-6 gap-6"
+                onSubmit={handleSubmit(onSubmit)}
+              >
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="FirstName"
+                    htmlFor="title"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    First Name
+                    Title
                   </label>
-
                   <input
                     type="text"
-                    id="FirstName"
-                    name="first_name"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    id="title"
+                    {...register("title", { required: true })}
+                    className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+                      errors.title ? "border-red-500" : ""
+                    }`}
                   />
+                  {errors.title && (
+                    <p className="mt-2 text-sm text-red-500">
+                      Title is required
+                    </p>
+                  )}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="LastName"
+                    htmlFor="author"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Last Name
+                    Author
                   </label>
-
                   <input
                     type="text"
-                    id="LastName"
-                    name="last_name"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    id="author"
+                    {...register("author", { required: true })}
+                    className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+                      errors.author ? "border-red-500" : ""
+                    }`}
                   />
-                </div>
-
-                <div className="col-span-6">
-                  <label
-                    htmlFor="Email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email
-                  </label>
-
-                  <input
-                    type="email"
-                    id="Email"
-                    name="email"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
+                  {errors.author && (
+                    <p className="mt-2 text-sm text-red-500">
+                      Author is required
+                    </p>
+                  )}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="Password"
+                    htmlFor="genre"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Password
+                    Genre
                   </label>
-
                   <input
-                    type="password"
-                    id="Password"
-                    name="password"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    type="text"
+                    id="genre"
+                    {...register("genre", { required: true })}
+                    className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+                      errors.genre ? "border-red-500" : ""
+                    }`}
                   />
+                  {errors.genre && (
+                    <p className="mt-2 text-sm text-red-500">
+                      Genre is required
+                    </p>
+                  )}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="PasswordConfirmation"
+                    htmlFor="publicationDate"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Password Confirmation
+                    Publication Date
                   </label>
-
                   <input
-                    type="password"
-                    id="PasswordConfirmation"
-                    name="password_confirmation"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    type="date"
+                    id="publicationDate"
+                    {...register("publicationDate", { required: true })}
+                    className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+                      errors.publicationDate ? "border-red-500" : ""
+                    }`}
                   />
+                  {errors.publicationDate && (
+                    <p className="mt-2 text-sm text-red-500">
+                      Publication Date is required
+                    </p>
+                  )}
                 </div>
 
                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <button className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                  <button
+                    type="submit"
+                    className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                  >
                     Add Book
                   </button>
                 </div>

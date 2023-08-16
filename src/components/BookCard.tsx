@@ -7,7 +7,6 @@ interface IProps {
 }
 
 function BookCard({ dt }: IProps) {
-  console.log(dt);
   return (
     <div
       key={dt?._id}
@@ -15,8 +14,6 @@ function BookCard({ dt }: IProps) {
     >
       <div className="card card-side bg-base-100 shadow-xl h-full">
         <figure className="h-56 w-100">
-          {" "}
-          {/* Set a fixed height */}
           <img
             className="w-full h-full object-cover"
             src="https://img.freepik.com/free-vector/abstract-elegant-winter-book-cover_23-2148798745.jpg?size=626&ext=jpg"
