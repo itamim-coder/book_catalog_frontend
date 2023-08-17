@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -15,6 +15,11 @@ function BookDetails() {
   const [deleteBook] = useDeleteBookMutation();
   const navigate = useNavigate();
   const [updateBook] = useUpdateBookMutation();
+
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [genre, setGenre] = useState("");
+  const [publicationDate, setPublicationDate] = useState("");
   const handleDelete = async () => {
     try {
       await deleteBook(id).unwrap();
@@ -24,41 +29,25 @@ function BookDetails() {
       console.error("Error deleting book:", error);
     }
   };
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const handleUpdate = async (data: {
-    title: any;
-    author: any;
-    genre: any;
-    publicationDate: any;
-  }) => {
+
+  const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
-      const changedFields = {};
-      if (data.title !== book.data.title) {
-        changedFields.title = data.title;
-      }
-      if (data.author !== book.data.author) {
-        changedFields.author = data.author;
-      }
-      if (data.genre !== book.data.genre) {
-        changedFields.genre = data.genre;
-      }
-      if (data.publicationDate !== book.data.publicationDate) {
-        changedFields.publicationDate = data.publicationDate;
-      }
-      console.log(changedFields);
-      if (Object.keys(changedFields).length > 0) {
-        // Call the update mutation with PATCH method
-        const updatedData = await updateBook({ id, bookData: changedFields });
-        if (updatedData.error) {
-          console.error("Error updating book:", updatedData.error);
-        } else {
-          // Update the UI with the new data
-          console.log("Book updated:", updatedData.data);
-        }
+      const data = {
+        title: (title && title) || book?.data?.title,
+        author: (author && author) || book?.data?.author,
+        genre: (genre && genre) || book?.data?.genre,
+        publicationDate:
+          (publicationDate && publicationDate) || book?.data?.publicationDate,
+      };
+
+      const updatedData = await updateBook({ id, bookData: data });
+      if (updatedData.error) {
+        console.error("Error updating book:", updatedData.error);
+      } else {
+        // Update the UI with the new data
+        navigate("/books");
+        console.log("Book updated:", updatedData.data);
       }
     } catch (error) {
       console.error("Error updating book:", error);
@@ -122,17 +111,10 @@ function BookDetails() {
                         <input
                           type="text"
                           id="title"
-                          defaultValue={book?.data?.title}
-                          {...register("title")}
-                          className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
-                            errors.title ? "border-red-500" : ""
-                          }`}
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                          className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm`}
                         />
-                        {errors.title && (
-                          <p className="mt-2 text-sm text-red-500">
-                            Title is required
-                          </p>
-                        )}
                       </div>
 
                       <div className="col-span-6 sm:col-span-3">
@@ -145,17 +127,10 @@ function BookDetails() {
                         <input
                           type="text"
                           id="author"
-                          defaultValue={book?.data?.author}
-                          {...register("author")}
-                          className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
-                            errors.author ? "border-red-500" : ""
-                          }`}
+                          value={author}
+                          onChange={(e) => setAuthor(e.target.value)}
+                          className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm`}
                         />
-                        {errors.author && (
-                          <p className="mt-2 text-sm text-red-500">
-                            Author is required
-                          </p>
-                        )}
                       </div>
 
                       <div className="col-span-6 sm:col-span-3">
@@ -168,17 +143,10 @@ function BookDetails() {
                         <input
                           type="text"
                           id="genre"
-                          defaultValue={book?.data?.genre}
-                          {...register("genre")}
-                          className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
-                            errors.genre ? "border-red-500" : ""
-                          }`}
+                          value={genre}
+                          onChange={(e) => setGenre(e.target.value)}
+                          className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm`}
                         />
-                        {errors.genre && (
-                          <p className="mt-2 text-sm text-red-500">
-                            Genre is required
-                          </p>
-                        )}
                       </div>
 
                       <div className="col-span-6 sm:col-span-3">
@@ -191,17 +159,10 @@ function BookDetails() {
                         <input
                           type="date"
                           id="publicationDate"
-                          defaultValue={book?.data?.publicationDate}
-                          {...register("publicationDate")}
-                          className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
-                            errors.publicationDate ? "border-red-500" : ""
-                          }`}
+                          value={publicationDate}
+                          onChange={(e) => setPublicationDate(e.target.value)}
+                          className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm`}
                         />
-                        {errors.publicationDate && (
-                          <p className="mt-2 text-sm text-red-500">
-                            Publication Date is required
-                          </p>
-                        )}
                       </div>
 
                       <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
