@@ -1,7 +1,7 @@
-import React from "react";
-import LoginForm from "../components/LoginForm";
 
-export default function Login() {
+import SignUpForm from "../components/SignUpForm";
+
+function Signup() {
   return (
     <>
       <section className="bg-white">
@@ -32,10 +32,10 @@ export default function Login() {
               </a>
 
               <h1 className="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                Login YOUR ACCOUNT 📖📖
+                Sign Up YOUR ACCOUNT 📖📖
               </h1>
 
-              <LoginForm></LoginForm>
+              <SignUpForm></SignUpForm>
             </div>
           </main>
         </div>
@@ -43,3 +43,5 @@ export default function Login() {
     </>
   );
 }
+
+export default Signup;
