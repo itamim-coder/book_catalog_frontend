@@ -1,9 +1,9 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { createUser } from "../redux/Features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
-
+import { toast } from "react-toastify";
 interface SignupFormInputs {
   email: string;
   password: string;
@@ -20,13 +20,22 @@ function SignUpForm() {
   const onSubmit = (data: SignupFormInputs) => {
     console.log(data);
     dispatch(createUser({ email: data.email, password: data.password }));
+    toast.success("Registration Successful", {
+      position: "top-right",
+      autoClose: 1200,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
   const navigate = useNavigate();
 
   useEffect(() => {
-
     if (user.email && !isLoading) {
-      navigate('/');
+      navigate("/");
     }
   }, [user.email, isLoading]);
 

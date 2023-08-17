@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import { setUser } from "../redux/Features/user/userSlice";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const { user } = useAppSelector((state) => state.user);
@@ -13,6 +14,16 @@ function Navbar() {
   const handleLogout = () => {
     signOut(auth).then(() => {
       dispatch(setUser(null));
+      toast.error("Successfully Logout", {
+        position: "top-right",
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       navigate("/");
     });
   };

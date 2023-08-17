@@ -1,9 +1,9 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { loginUser } from "../redux/Features/user/userSlice";
-
+import { toast } from "react-toastify";
 
 interface LoginFormInputs {
   email: string;
@@ -21,13 +21,22 @@ function LoginForm() {
   const onSubmit = (data: LoginFormInputs) => {
     console.log(data);
     dispatch(loginUser({ email: data.email, password: data.password }));
+    toast.success("Successfully Login", {
+      position: "top-right",
+      autoClose: 1200,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
   const navigate = useNavigate();
 
   useEffect(() => {
-
     if (user.email && !isLoading) {
-      navigate('/');
+      navigate("/");
     }
   }, [user.email, isLoading]);
 

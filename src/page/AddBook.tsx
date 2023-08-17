@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useAddBookMutation } from "../redux/Features/books/bookApi";
 import { IBook } from "../types/globalTypes";
+import { toast } from "react-toastify";
 
 function AddBook() {
   const {
@@ -17,7 +18,16 @@ function AddBook() {
       .unwrap()
       .then(() => {
         // Handle success
-        alert("Book added successfully");
+        toast.success("Book Added Successfully", {
+          position: "top-right",
+          autoClose: 1200,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       })
       .catch((error) => {
         // Handle error
@@ -31,7 +41,7 @@ function AddBook() {
           <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
             <img
               alt="Night"
-              src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+              src="https://img.freepik.com/free-photo/assortment-with-books-dark-background_23-2148898277.jpg?w=360&t=st=1692291369~exp=1692291969~hmac=7274d18bcdd49e133b82c9456ac18b7e9d0e427f409ea2214a9d475ad1579a44"
               className="absolute inset-0 h-full w-full object-cover opacity-80"
             />
 

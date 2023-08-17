@@ -3,6 +3,7 @@ import {
   useGetReviewQuery,
   usePostReviewMutation,
 } from "../redux/Features/books/bookApi";
+import {  toast } from "react-toastify";
 interface IProps {
   id: string;
 }
@@ -26,6 +27,16 @@ function BookReview({ id }: IProps) {
     };
     console.log(options);
     postReview(options);
+    toast.success("Review Added!", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     setInputValue("");
   };
   return (

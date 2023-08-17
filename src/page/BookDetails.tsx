@@ -1,6 +1,6 @@
 import { useState, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import {
   useDeleteBookMutation,
   useSingleBookQuery,
@@ -53,7 +53,16 @@ function BookDetails() {
       } else {
         // Update the UI with the new data
         navigate("/books");
-        console.log("Book updated:", updatedData.data);
+        toast.success("Successfully Updated", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
       console.error("Error updating book:", error);
@@ -207,7 +216,9 @@ function BookDetails() {
                 </form>
               </dialog>
             </div>
-
+            <div className="">
+              Post Review
+            </div>
             <BookReview id={id!}></BookReview>
           </div>
         </div>
