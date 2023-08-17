@@ -19,16 +19,20 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/login",
-        element: <Login />,
-      },
-      {
         path: "/books",
         element: <AllBooks />,
       },
       {
+        path: "/login",
+        element: <Login />,
+      },
+      {
         path: "/add_book",
-        element: <AddBook />,
+        element: (
+          <PrivateRoute>
+            <AddBook />,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/details/:id",

@@ -1,14 +1,15 @@
-
-import { ReactNode } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { useAppSelector } from '../redux/hook';
+import { ReactNode } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAppSelector } from "../redux/hook";
 
 interface IProps {
   children: ReactNode;
 }
 
 export default function PrivateRoute({ children }: IProps) {
-  const { user, isLoading } = useAppSelector((state: { user: any; }) => state.user);
+  const { user, isLoading } = useAppSelector(
+    (state: { user: any }) => state.user
+  );
 
   const { pathname } = useLocation();
 

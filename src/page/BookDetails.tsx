@@ -33,14 +33,20 @@ function BookDetails() {
   const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const data = {
-        title: (title && title) || book?.data?.title,
-        author: (author && author) || book?.data?.author,
-        genre: (genre && genre) || book?.data?.genre,
-        publicationDate:
-          (publicationDate && publicationDate) || book?.data?.publicationDate,
-      };
-
+      const data = {};
+      if (title) {
+        data.title = title;
+      }
+      if (author) {
+        data.author = author;
+      }
+      if (genre) {
+        data.genre = genre;
+      }
+      if (publicationDate) {
+        data.publicationDate = publicationDate;
+      }
+      // console.log(data);
       const updatedData = await updateBook({ id, bookData: data });
       if (updatedData.error) {
         console.error("Error updating book:", updatedData.error);
@@ -202,7 +208,7 @@ function BookDetails() {
               </dialog>
             </div>
 
-            <BookReview id={!id}></BookReview>
+            <BookReview id={id!}></BookReview>
           </div>
         </div>
       </div>

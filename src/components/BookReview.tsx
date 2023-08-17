@@ -1,67 +1,58 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import {
+  useGetReviewQuery,
+  usePostReviewMutation,
+} from "../redux/Features/books/bookApi";
 interface IProps {
   id: string;
 }
 function BookReview({ id }: IProps) {
   const [inputValue, setInputValue] = useState<string>("");
-
+  const [postReview, { isLoading, isError, isSuccess }] =
+    usePostReviewMutation();
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
   };
+  const { data } = useGetReviewQuery(id, {
+    refetchOnMountOrArgChange: true,
+    // pollingInterval: 30000,
+  });
+  console.log(data?.data?.reviews);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const options = {
-    //   id: id,
-    //   data: { comment: inputValue },
-    // };
-    // console.log(options);
-    // postComment(options);
-    // setInputValue("");
+    const options = {
+      id: id,
+      data: { review: inputValue },
+    };
+    console.log(options);
+    postReview(options);
+    setInputValue("");
   };
   return (
     <>
-      <form className="flex gap-5 items-center" onSubmit={handleSubmit}>
+      <form className="flex  gap-5 items-center" onSubmit={handleSubmit}>
         <textarea
-          className="min-h-[30px] w-full"
+          className="min-h-[30px] w-full text-black"
           onChange={handleChange}
           value={inputValue}
         />
-        <button
-          type="submit"
-          className="rounded-full h-10 w-13 bg-black p-2 "
-        >
-            Send
+        <button type="submit" className="rounded-full h-10 w-13 bg-black p-2 ">
+          Send
           {/* <FiSend /> */}
         </button>
       </form>
-      <div className="chat chat-start">
-        <div className="chat-image avatar">
-          <div className="w-10 rounded-full">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+      {data?.data?.reviews?.map((review: string, index: number) => (
+        <>
+          <div className="chat chat-start">
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full">
+                <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              </div>
+            </div>
+            <div className="chat-bubble">{review}</div>
           </div>
-        </div>
-        <div className="chat-bubble">
-          It was said that you would, destroy the Sith, not join them.
-        </div>
-      </div>
-      <div className="chat chat-start">
-        <div className="chat-image avatar">
-          <div className="w-10 rounded-full">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-          </div>
-        </div>
-        <div className="chat-bubble">
-          It was you who would bring balance to the Force
-        </div>
-      </div>
-      <div className="chat chat-start">
-        <div className="chat-image avatar">
-          <div className="w-10 rounded-full">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-          </div>
-        </div>
-        <div className="chat-bubble">Not leave it in Darkness</div>
-      </div>
+        </>
+      ))}
     </>
   );
 }
