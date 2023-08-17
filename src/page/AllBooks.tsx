@@ -2,9 +2,15 @@ import { useState } from "react";
 import BookCard from "../components/BookCard";
 import { useGetBooksQuery } from "../redux/Features/books/bookApi";
 import { IBook } from "../types/globalTypes";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import {
+  setGenre,
+  setSearchQuery,
+  setYear,
+} from "../redux/Features/books/bookSlice";
 
 function AllBooks() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const { genre, year, searchQuery } = useAppSelector((state) => state.book);
   const {
     data: Books,
     isLoading,
@@ -15,35 +21,32 @@ function AllBooks() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  const dispatch = useAppDispatch();
 
-  const [filterGenre, setFilterGenre] = useState("");
-  const [filterYear, setFilterYear] = useState("");
+  const filteredBooks = Books?.data?.filter((book: IBook) => {
+    const genreMatch =
+      !genre || book.genre.toLowerCase().includes(genre.toLowerCase());
+    const yearMatch = !year || book.publicationDate.includes(year);
+    const searchMatch =
+      !searchQuery ||
+      book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.genre.toLowerCase().includes(searchQuery.toLowerCase());
 
-  let booksData = Books?.data;
+    return genreMatch && yearMatch && searchMatch;
+  });
 
-  // Apply filters
-  if (filterGenre) {
-    booksData = booksData.filter((book: IBook) =>
-      book.genre.toLowerCase().includes(filterGenre.toLowerCase())
-    );
-  }
+  const handleFilterGenre = (value: string) => {
+    dispatch(setGenre(value));
+  };
 
-  if (filterYear) {
-    booksData = booksData.filter((book: IBook) =>
-      book.publicationDate.includes(filterYear)
-    );
-  }
+  const handleFilterYear = (value: string) => {
+    dispatch(setYear(value));
+  };
 
-  if (searchQuery) {
-    booksData = booksData.filter(
-      (book: IBook) =>
-        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.genre.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  } else if (!filterGenre && !filterYear) {
-    booksData = Books?.data;
-  }
+  const handleSearch = (value: string) => {
+    dispatch(setSearchQuery(value));
+  };
 
   return (
     <>
@@ -52,7 +55,7 @@ function AllBooks() {
           type="text"
           placeholder="Type here"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => handleSearch(e.target.value)}
           className="input w-full max-w-xs "
         />
       </div>
@@ -60,8 +63,8 @@ function AllBooks() {
         <div>
           <select
             className="select w-full max-w-xs"
-            onChange={(e) => setFilterGenre(e.target.value)}
-            value={filterGenre}
+            onChange={(e) => handleFilterGenre(e.target.value)}
+            value={genre}
           >
             <option value="">Pick a genre</option>
             <option value="Fiction">Fiction</option>
@@ -71,8 +74,8 @@ function AllBooks() {
           </select>
           <select
             className="select w-full max-w-xs"
-            onChange={(e) => setFilterYear(e.target.value)}
-            value={filterYear}
+            onChange={(e) => handleFilterYear(e.target.value)}
+            value={year}
           >
             <option value="">Pick a Year</option>
             <option value="1851">1851</option>
@@ -87,7 +90,7 @@ function AllBooks() {
       <section>
         <div className="relative mx-auto max-w-7xl">
           <div className="grid max-w-lg gap-7 mx-auto mt-12 lg:grid-cols-3 lg:max-w-none">
-            {booksData?.map((dt: IBook) => (
+            {filteredBooks?.map((dt: IBook) => (
               <BookCard dt={dt}></BookCard>
             ))}
           </div>

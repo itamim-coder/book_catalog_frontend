@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
@@ -9,9 +9,11 @@ function Navbar() {
   const { user } = useAppSelector((state) => state.user);
   // console.log("user", user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleLogout = () => {
     signOut(auth).then(() => {
       dispatch(setUser(null));
+      navigate("/");
     });
   };
   return (
