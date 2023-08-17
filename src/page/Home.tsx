@@ -1,4 +1,4 @@
-import React from "react";
+
 import Book from "./Book";
 
 export default function Home() {
@@ -83,7 +83,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div>
+      <div className=" dark:bg-gray-800 dark:text-gray-100 ">
+        <div className="text-center text-3xl font-bold ">
+          <h2 className="pt-5">Recently Added Book</h2>
+        </div>
         <Book></Book>
       </div>
     </>

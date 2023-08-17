@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
@@ -47,20 +47,41 @@ function Navbar() {
               />
             </svg>
           </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <Link to="/books">All Books</Link>
+            </li>
+            <li>
+              {user.email && (
+                <>
+                  <Link to="/add_book">Add New</Link>
+                </>
+              )}
+            </li>
+          </ul>
         </div>
         <Link to="/" className="btn btn-ghost normal-case text-xl">
-          daisyUI
+          Book Catalog
         </Link>
       </div>
+
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          <Link to="/books">All Books</Link>
-        </ul>
+        <Link to="/books">
+          <ul className="menu menu-horizontal px-3 mx-2  hover:border-black bg-white border border-gray-200 rounded-lg">
+            All Books
+          </ul>
+        </Link>
+
         {user.email && (
           <>
-            <ul className="menu menu-horizontal px-1">
-              <Link to="/add_book">Add New</Link>
-            </ul>
+            <Link to="/add_book">
+              <ul className="menu menu-horizontal px-3  mx-2 bg-white border border-gray-200 hover:border-black rounded-lg">
+                Add New
+              </ul>
+            </Link>
           </>
         )}
       </div>

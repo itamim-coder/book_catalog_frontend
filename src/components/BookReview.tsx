@@ -9,7 +9,7 @@ interface IProps {
 }
 function BookReview({ id }: IProps) {
   const [inputValue, setInputValue] = useState<string>("");
-  const [postReview, { isLoading, isError, isSuccess }] =
+  const [postReview] =
     usePostReviewMutation();
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
@@ -52,7 +52,7 @@ function BookReview({ id }: IProps) {
           {/* <FiSend /> */}
         </button>
       </form>
-      {data?.data?.reviews?.map((review: string, index: number) => (
+      {data?.data?.reviews?.map((review: string) => (
         <>
           <div className="chat chat-start">
             <div className="chat-image avatar">

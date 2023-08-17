@@ -1,4 +1,3 @@
-import { useState } from "react";
 import BookCard from "../components/BookCard";
 import { useGetBooksQuery } from "../redux/Features/books/bookApi";
 import { IBook } from "../types/globalTypes";
@@ -53,34 +52,54 @@ function AllBooks() {
       <div className="flex justify-center">
         <input
           type="text"
-          placeholder="Type here"
+          placeholder="Search here"
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
-          className="input w-full max-w-xs "
+          className="input w-full max-w-xs bg-white border border-gray-200 rounded-lg"
         />
       </div>
-      <div>
-        <div>
+      <div className="m-5">
+        <div className="m-5">
           <select
-            className="select w-full max-w-xs"
+            className="select w-full lg:m-5 sm:m-3  max-w-xs bg-white border border-gray-200 rounded-lg"
             onChange={(e) => handleFilterGenre(e.target.value)}
             value={genre}
           >
             <option value="">Pick a genre</option>
             <option value="Fiction">Fiction</option>
             <option value="Fantasy">Fantasy</option>
+            <option value="Romance">Romance</option>
             <option value="Science Fiction">Science Fiction</option>
             {/* Add more genres */}
           </select>
+
           <select
-            className="select w-full max-w-xs"
+            className="select w-full lg:m-5 sm:m-3 max-w-xs bg-white border border-gray-200 rounded-lg"
             onChange={(e) => handleFilterYear(e.target.value)}
             value={year}
           >
             <option value="">Pick a Year</option>
-            <option value="1851">1851</option>
-            <option value="1953">1953</option>
+            <option value="1990">1990</option>
+            <option value="1991">1991</option>
+            <option value="1992">1992</option>
+            <option value="1993">1993</option>
+            <option value="1994">1994</option>
+            <option value="1995">1995</option>
+            <option value="1996">1996</option>
+            <option value="1997">1997</option>
+            <option value="1998">1998</option>
+            <option value="1999">1999</option>
+            <option value="2000">2000</option>
+            <option value="2001">2001</option>
+            <option value="2002">2002</option>
+            <option value="2003">2003</option>
+            <option value="2004">2004</option>
             <option value="2005">2005</option>
+            <option value="2006">2006</option>
+            <option value="2007">2007</option>
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
 
             {/* Add more authors */}
           </select>

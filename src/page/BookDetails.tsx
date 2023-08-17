@@ -25,6 +25,16 @@ function BookDetails() {
       await deleteBook(id).unwrap();
       // Redirect to book list after successful deletion
       navigate("/books");
+      toast.success("Successfully Deleted", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (error) {
       console.error("Error deleting book:", error);
     }
@@ -216,9 +226,7 @@ function BookDetails() {
                 </form>
               </dialog>
             </div>
-            <div className="">
-              Post Review
-            </div>
+            <div className="">Post Review</div>
             <BookReview id={id!}></BookReview>
           </div>
         </div>

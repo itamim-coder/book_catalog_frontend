@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useForm } from "react-hook-form";
 import { useAddBookMutation } from "../redux/Features/books/bookApi";
 import { IBook } from "../types/globalTypes";
@@ -11,7 +11,7 @@ function AddBook() {
     formState: { errors },
   } = useForm();
 
-  const [addBook, { isLoading }] = useAddBookMutation();
+  const [addBook] = useAddBookMutation();
 
   const onSubmit = (data: IBook) => {
     addBook(data)
@@ -109,7 +109,7 @@ function AddBook() {
                     type="text"
                     id="title"
                     {...register("title", { required: true })}
-                    className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+                    className={`mt-1 p-2 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
                       errors.title ? "border-red-500" : ""
                     }`}
                   />
@@ -131,7 +131,7 @@ function AddBook() {
                     type="text"
                     id="author"
                     {...register("author", { required: true })}
-                    className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+                    className={`mt-1 p-2 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
                       errors.author ? "border-red-500" : ""
                     }`}
                   />
@@ -153,7 +153,7 @@ function AddBook() {
                     type="text"
                     id="genre"
                     {...register("genre", { required: true })}
-                    className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+                    className={`mt-1 p-2 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
                       errors.genre ? "border-red-500" : ""
                     }`}
                   />
@@ -175,7 +175,7 @@ function AddBook() {
                     type="date"
                     id="publicationDate"
                     {...register("publicationDate", { required: true })}
-                    className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+                    className={`mt-1 p-2 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
                       errors.publicationDate ? "border-red-500" : ""
                     }`}
                   />

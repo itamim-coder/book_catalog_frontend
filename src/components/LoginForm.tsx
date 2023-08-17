@@ -57,9 +57,9 @@ function LoginForm() {
           <input
             type="email"
             id="Email"
-            name="email"
+          
             {...register("email", { required: "Email is required" })}
-            className={`mt-1 py-3 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+            className={`mt-1 p-3 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
               errors.email ? "border-red-500" : ""
             }`}
           />
@@ -79,9 +79,9 @@ function LoginForm() {
           <input
             type="password"
             id="Password"
-            name="password"
+            
             {...register("password", { required: "Password is required" })}
-            className={`mt-1 py-3 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
+            className={`mt-1 p-3 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm ${
               errors.password ? "border-red-500" : ""
             }`}
           />
