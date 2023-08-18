@@ -13,7 +13,7 @@ function AllBooks() {
   const {
     data: Books,
     isLoading,
-    error,
+   
   } = useGetBooksQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });

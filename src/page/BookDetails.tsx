@@ -10,8 +10,11 @@ import BookReview from "../components/BookReview";
 
 function BookDetails() {
   const { id } = useParams();
-  const { data: book, isLoading, error } = useSingleBookQuery(id);
-
+  const { data: book, isLoading } = useSingleBookQuery(id, {
+    refetchOnMountOrArgChange: true,
+    // pollingInterval: 30000,
+  });
+  console.log(book);
   const [deleteBook] = useDeleteBookMutation();
   const navigate = useNavigate();
   const [updateBook] = useUpdateBookMutation();
@@ -39,11 +42,14 @@ function BookDetails() {
       console.error("Error deleting book:", error);
     }
   };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const data = {};
+      const data: any = {};
       if (title) {
         data.title = title;
       }
@@ -57,7 +63,7 @@ function BookDetails() {
         data.publicationDate = publicationDate;
       }
       // console.log(data);
-      const updatedData = await updateBook({ id, bookData: data });
+      const updatedData: any = await updateBook({ id, bookData: data });
       if (updatedData.error) {
         console.error("Error updating book:", updatedData.error);
       } else {
@@ -98,13 +104,13 @@ function BookDetails() {
                 {book?.data?.title}
               </a>
               <p className="text-xs dark:text-gray-400">
-                By
+                By <span> </span>
                 <a
                   rel="noopener noreferrer"
                   href="#"
                   className="text-xs hover:underline"
                 >
-                  {book?.data?.author}
+                   {book?.data?.author}
                 </a>
               </p>
             </div>
@@ -120,12 +126,16 @@ function BookDetails() {
                 Edit
               </button>
               <dialog id="my_modal_3" className="modal">
-                <div method="dialog" className="modal-box">
+                <div className="modal-box">
                   <h3 className="font-bold text-lg text-red-600">
                     Update Book
                   </h3>
                   <div className="flex justify-center mt-5">
-                    <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+                    <form
+                      action="#"
+                      onSubmit={handleUpdate}
+                      className="mt-8 grid grid-cols-6 gap-6"
+                    >
                       <div className="col-span-6 sm:col-span-3">
                         <label
                           htmlFor="title"
@@ -192,7 +202,6 @@ function BookDetails() {
 
                       <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                         <button
-                          onClick={handleUpdate}
                           type="submit"
                           className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
                         >

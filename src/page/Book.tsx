@@ -1,10 +1,10 @@
-import React from "react";
+
 import BookCard from "../components/BookCard";
 import { useGetBooksQuery } from "../redux/Features/books/bookApi";
 import { IBook } from "../types/globalTypes";
 
 function Book() {
-  const { data: Books, isLoading, error } = useGetBooksQuery(undefined);
+  const { data: Books} = useGetBooksQuery(undefined);
 
   return (
     <>
