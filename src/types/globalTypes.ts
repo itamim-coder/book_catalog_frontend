@@ -6,3 +6,5 @@ export interface IBook {
   publicationDate: string;
   reviews?: string[];
 }
+// global.d.ts
+

@@ -1,7 +1,6 @@
-
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useAddBookMutation } from "../redux/Features/books/bookApi";
-import { IBook } from "../types/globalTypes";
+
 import { toast } from "react-toastify";
 
 function AddBook() {
@@ -13,7 +12,7 @@ function AddBook() {
 
   const [addBook] = useAddBookMutation();
 
-  const onSubmit = (data: IBook) => {
+  const handleUpdate: SubmitHandler<FieldValues> = (data) => {
     addBook(data)
       .unwrap()
       .then(() => {
@@ -96,7 +95,8 @@ function AddBook() {
               <form
                 action="#"
                 className="mt-8 grid grid-cols-6 gap-6"
-                onSubmit={handleSubmit(onSubmit)}
+                // onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(handleUpdate)} 
               >
                 <div className="col-span-6 sm:col-span-3">
                   <label
